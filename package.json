@@ -1,0 +1,18 @@
+{
+  "name": "postman",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "dependencies": {
+    "newman-reporter-html": "^1.0.5",
+    "newman-run": "^1.2.4"
+  },
+  "devDependencies": {
+    "newman": "^5.2.4",
+    "newman-reporter-allure": "^1.0.7"
+  }
+}

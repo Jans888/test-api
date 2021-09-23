@@ -1,0 +1,885 @@
+{
+	"info": {
+		"_postman_id": "e8420da4-ac6a-45f3-8adf-d022772f10fe",
+		"name": "test.api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Actuator",
+			"item": [
+				{
+					"name": "/actuator",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Headers are correct\", function () {\r",
+									"  pm.response.to.be.header(\r",
+									"    \"Content-Type\",\r",
+									"    \"application/vnd.spring-boot.actuator.v2+json;charset=UTF-8\"\r",
+									"  );\r",
+									"  pm.response.to.be.header(\r",
+									"    \"Transfer-Encoding\",\r",
+									"    \"chunked\"\r",
+									"  );\r",
+									"  pm.response.to.be.header(\r",
+									"    \"Connection\",\r",
+									"    \"keep-alive\"\r",
+									"  );\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/actuator",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"actuator"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/actuator/health",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)\r",
+									"\r",
+									"pm.test(\"Status code: \" + pm.response.code, function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"pm.test(\"Status: \" + jsonData.status, function () {\r",
+									"    pm.expect(jsonData.status).to.eq(\"UP\");\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/actuator/health",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/actuator/info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)\r",
+									"\r",
+									"pm.test(\"Status code: \" + pm.response.code, function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"pm.test(\"app.name: \" + jsonData.app.name, function () {\r",
+									"    pm.expect(jsonData.app.name).to.eq(\"@project.name@\");\r",
+									"})\r",
+									"pm.test(\"app.description: \" + jsonData.app.description, function () {\r",
+									"    pm.expect(jsonData.app.description).to.eq(\"@project.description@\");\r",
+									"})\r",
+									"pm.test(\"app.version: \" + jsonData.app.version, function () {\r",
+									"    pm.expect(jsonData.app.version).to.eq(\"@project.version@\");\r",
+									"})\r",
+									"pm.test(\"app.encoding: \" + jsonData.app.encoding, function () {\r",
+									"    pm.expect(jsonData.app.encoding).to.eq(\"@project.build.sourceEncoding@\");\r",
+									"})\r",
+									"pm.test(\"app.java.version: \" + jsonData.app.java.version, function () {\r",
+									"    pm.expect(jsonData.app.java.version).to.eq(\"@java.version@\");\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"build.version: \" + jsonData.build.version, function () {\r",
+									"    pm.expect(jsonData.build.version).to.eq(\"688761cc5739578a2b2b9a9f446131d594a108b3\");\r",
+									"})\r",
+									"pm.test(\"build.artifact: \" + jsonData.build.artifact, function () {\r",
+									"    pm.expect(jsonData.build.artifact).to.eq(\"api-688761cc5739578a2b2b9a9f446131d594a108b3.jar\");\r",
+									"})\r",
+									"pm.test(\"build.name: \" + jsonData.build.name, function () {\r",
+									"    pm.expect(jsonData.build.name).to.eq(\"api\");\r",
+									"})\r",
+									"pm.test(\"build.group: \" + jsonData.build.group, function () {\r",
+									"    pm.expect(jsonData.build.group).to.eq(\"io.chucknorris\");\r",
+									"})\r",
+									"pm.test(\"build.time: \" + jsonData.build.time, function () {\r",
+									"    pm.expect(jsonData.build.time).to.eq(\"2020-11-26T10:38:15.764Z\");\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/actuator/info",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"actuator",
+								"info"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Feed",
+			"item": [
+				{
+					"name": "/feed/daily-chuck/stats",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Headers are correct\", function () {",
+									"  pm.response.to.be.header(",
+									"    \"Access-Control-Allow-Origin\",",
+									"    \"*\"",
+									"  );",
+									"  pm.response.to.be.header(",
+									"    \"Access-Control-Allow-Credentials\",",
+									"    \"true\"",
+									"  );",
+									"  pm.response.to.be.header(",
+									"    \"Content-Type\",",
+									"    \"application/json;charset=UTF-8\"",
+									"  );",
+									"});",
+									"",
+									"pm.test('Schema is valid', function() {",
+									"  pm.expect(tv4.validate(",
+									"    pm.response.json(),",
+									"    pm.environment.get(\"schema\").definitions['MailingListStatistic']",
+									"  )).to.be.true;",
+									"});",
+									"",
+									"const moment = require('moment')",
+									"let today = moment().format(\"YYYY-MM-DD\" + \"T\" + \"HH:MM:SS:MS\" + \".000\")",
+									"console.log(today)",
+									"",
+									"pm.test(\"member_count: \" + jsonData.member_count, function () {",
+									"    pm.expect(jsonData.member_count).to.eq(626);",
+									"})",
+									"pm.test(\"unsubscribe_count: \" + jsonData.unsubscribe_count, function () {",
+									"    pm.expect(jsonData.unsubscribe_count).to.eq(487);",
+									"})",
+									"pm.test(\"cleaned_count: \" + jsonData.cleaned_count, function () {",
+									"    pm.expect(jsonData.cleaned_count).to.eq(176);",
+									"})",
+									"pm.test(\"member_count_since_send: \" + jsonData.member_count_since_send, function () {",
+									"    pm.expect(jsonData.member_count_since_send).to.eq(1);",
+									"})",
+									"pm.test(\"unsubscribe_count_since_send: \" + jsonData.unsubscribe_count_since_send, function () {",
+									"    pm.expect(jsonData.unsubscribe_count_since_send).to.eq(0);",
+									"})",
+									"pm.test(\"cleaned_count_since_send: \" + jsonData.cleaned_count_since_send, function () {",
+									"    pm.expect(jsonData.cleaned_count_since_send).to.eq(0);",
+									"})",
+									"pm.test(\"campaign_count: \" + jsonData.campaign_count, function () {",
+									"    pm.expect(jsonData.campaign_count).to.eq(1279);",
+									"})",
+									"pm.test(\"campaign_last_sent: \" + jsonData.campaign_last_sent, function () {",
+									"    pm.expect(jsonData.campaign_last_sent).to.eq(today);",
+									"})",
+									"pm.test(\"merge_field_count: \" + jsonData.merge_field_count, function () {",
+									"    pm.expect(jsonData.merge_field_count).to.eq(2);",
+									"})",
+									"pm.test(\"avg_sub_rate: \" + jsonData.avg_sub_rate, function () {",
+									"    pm.expect(jsonData.avg_sub_rate).to.eq(29);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"description": "The Origin request header indicates where a fetch originates from. It doesn't include any path information, but only the server name. It is sent with CORS requests, as well as with POST requests. It is similar to the Referer header, but, unlike this header, it doesn't disclose the whole path.",
+								"key": "Origin",
+								"type": "text",
+								"value": "*"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/feed/daily-chuck/stats",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"feed",
+								"daily-chuck",
+								"stats"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Jokes",
+			"item": [
+				{
+					"name": "Categories",
+					"item": [
+						{
+							"name": "/jokes/categories",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var responseData = JSON.parse(responseBody)",
+											"",
+											"var schema = {",
+											"  \"type\": \"array\",",
+											"    \"items\": {",
+											"      \"type\": \"string\"",
+											"    }",
+											"}",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Headers are correct\", function () {",
+											"  pm.response.to.be.header(",
+											"    \"Access-Control-Allow-Origin\",",
+											"    \"*\"",
+											"  );",
+											"  pm.response.to.be.header(",
+											"    \"Access-Control-Allow-Credentials\",",
+											"    \"true\"",
+											"  );",
+											"  pm.response.to.be.header(",
+											"    \"Content-Type\",",
+											"    \"application/json;charset=UTF-8\"",
+											"  );",
+											"});",
+											"",
+											"pm.test('Schema is valid', function() {",
+											"  var jsonData = pm.response.json();",
+											"  pm.expect(tv4.validate(jsonData, schema)).to.be.true;",
+											"});",
+											"",
+											"pm.test(\"Response contains: \" + responseData[0], function () {",
+											"    pm.expect(responseData[0]).to.eq(\"animal\");",
+											"})",
+											"",
+											"pm.test(\"Response contains: \" + responseData[1], function () {",
+											"    pm.expect(responseData[1]).to.eq(\"career\");",
+											"})",
+											"",
+											"pm.test(\"Response contains: \" + responseData[2], function () {",
+											"    pm.expect(responseData[2]).to.eq(\"celebrity\");",
+											"})",
+											"",
+											"pm.test(\"Response contains: \" + responseData[3], function () {",
+											"    pm.expect(responseData[3]).to.eq(\"dev\");",
+											"})",
+											"",
+											"pm.test(\"Response contains: \" + responseData[4], function () {",
+											"    pm.expect(responseData[4]).to.eq(\"explicit\");",
+											"})",
+											"",
+											"pm.test(\"Response contains: \" + responseData[5], function () {",
+											"    pm.expect(responseData[5]).to.eq(\"fashion\");",
+											"})",
+											"",
+											"pm.test(\"Response contains: \" + responseData[6], function () {",
+											"    pm.expect(responseData[6]).to.eq(\"food\");",
+											"})",
+											"",
+											"pm.test(\"Response contains: \" + responseData[7], function () {",
+											"    pm.expect(responseData[7]).to.eq(\"history\");",
+											"})",
+											"",
+											"pm.test(\"Response contains: \" + responseData[8], function () {",
+											"    pm.expect(responseData[8]).to.eq(\"money\");",
+											"})",
+											"",
+											"pm.test(\"Response contains: \" + responseData[9], function () {",
+											"    pm.expect(responseData[9]).to.eq(\"movie\");",
+											"})",
+											"",
+											"pm.test(\"Response contains: \" + responseData[10], function () {",
+											"    pm.expect(responseData[10]).to.eq(\"music\");",
+											"})",
+											"",
+											"pm.test(\"Response contains: \" + responseData[11], function () {",
+											"    pm.expect(responseData[11]).to.eq(\"political\");",
+											"})",
+											"",
+											"pm.test(\"Response contains: \" + responseData[12], function () {",
+											"    pm.expect(responseData[12]).to.eq(\"religion\");",
+											"})",
+											"",
+											"pm.test(\"Response contains: \" + responseData[13], function () {",
+											"    pm.expect(responseData[13]).to.eq(\"science\");",
+											"})",
+											"",
+											"pm.test(\"Response contains: \" + responseData[14], function () {",
+											"    pm.expect(responseData[14]).to.eq(\"sport\");",
+											"})",
+											"",
+											"pm.test(\"Response contains: \" + responseData[15], function () {",
+											"    pm.expect(responseData[15]).to.eq(\"travel\");",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Origin",
+										"value": "*",
+										"description": "The Origin request header indicates where a fetch originates from. It doesn't include any path information, but only the server name. It is sent with CORS requests, as well as with POST requests. It is similar to the Referer header, but, unlike this header, it doesn't disclose the whole path.",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/jokes/categories",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"jokes",
+										"categories"
+									]
+								},
+								"description": "Retrieve a list of available joke categories."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Random",
+					"item": [
+						{
+							"name": "/jokes/random",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Headers are correct\", function () {",
+											"  pm.response.to.be.header(",
+											"    \"Access-Control-Allow-Origin\",",
+											"    \"*\"",
+											"  );",
+											"  pm.response.to.be.header(",
+											"    \"Access-Control-Allow-Credentials\",",
+											"    \"true\"",
+											"  );",
+											"  pm.response.to.be.header(",
+											"    \"Content-Type\",",
+											"    \"application/json;charset=UTF-8\"",
+											"  );",
+											"});",
+											"",
+											"pm.test('Schema is valid', function() {",
+											"  pm.expect(tv4.validate(",
+											"    pm.response.json(),",
+											"    pm.environment.get(\"schema\").definitions['Joke']",
+											"  )).to.be.true;",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"description": "The Origin request header indicates where a fetch originates from. It doesn't include any path information, but only the server name. It is sent with CORS requests, as well as with POST requests. It is similar to the Referer header, but, unlike this header, it doesn't disclose the whole path.",
+										"key": "Origin",
+										"type": "text",
+										"value": "*"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/jokes/random",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"jokes",
+										"random"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/jokes/random with category",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Headers are correct\", function () {",
+											"  pm.response.to.be.header(",
+											"    \"Access-Control-Allow-Origin\",",
+											"    \"*\"",
+											"  );",
+											"  pm.response.to.be.header(",
+											"    \"Access-Control-Allow-Credentials\",",
+											"    \"true\"",
+											"  );",
+											"  pm.response.to.be.header(",
+											"    \"Content-Type\",",
+											"    \"application/json;charset=UTF-8\"",
+											"  );",
+											"});",
+											"",
+											"pm.test('Schema is valid', function() {",
+											"  pm.expect(tv4.validate(",
+											"    pm.response.json(),",
+											"    pm.environment.get(\"schema\").definitions['Joke']",
+											"  )).to.be.true;",
+											"});",
+											"",
+											"pm.test(\"Has categories = ['dev']\", function () {",
+											"  var jsonData = pm.response.json();",
+											"  pm.expect(jsonData.categories).to.eql(['dev']);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"description": "The Origin request header indicates where a fetch originates from. It doesn't include any path information, but only the server name. It is sent with CORS requests, as well as with POST requests. It is similar to the Referer header, but, unlike this header, it doesn't disclose the whole path.",
+										"key": "Origin",
+										"type": "text",
+										"value": "*"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/jokes/random?category=dev",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"jokes",
+										"random"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "dev"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/jokes/random with categories",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Headers are correct\", function () {",
+											"  pm.response.to.be.header(",
+											"    \"Access-Control-Allow-Origin\",",
+											"    \"*\"",
+											"  );",
+											"  pm.response.to.be.header(",
+											"    \"Access-Control-Allow-Credentials\",",
+											"    \"true\"",
+											"  );",
+											"  pm.response.to.be.header(",
+											"    \"Content-Type\",",
+											"    \"application/json;charset=UTF-8\"",
+											"  );",
+											"});",
+											"",
+											"pm.test('Schema is valid', function() {",
+											"  pm.expect(tv4.validate(",
+											"    pm.response.json(),",
+											"    pm.environment.get(\"schema\").definitions['Joke']",
+											"  )).to.be.true;",
+											"});",
+											"",
+											"pm.test(\"Has categories = ['dev'] or ['movie']\", function () {",
+											"  var jsonData = pm.response.json();",
+											"  pm.expect(jsonData.categories).satisfy(category => {",
+											"      return (category[0] === 'dev') || category[0] === 'movie'",
+											"  });",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"description": "The Origin request header indicates where a fetch originates from. It doesn't include any path information, but only the server name. It is sent with CORS requests, as well as with POST requests. It is similar to the Referer header, but, unlike this header, it doesn't disclose the whole path.",
+										"key": "Origin",
+										"type": "text",
+										"value": "*"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/jokes/random?category=dev,movie",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"jokes",
+										"random"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "dev,movie"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/jokes/random  personalised",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Headers are correct\", function () {",
+											"  pm.response.to.be.header(",
+											"    \"Access-Control-Allow-Origin\",",
+											"    \"*\"",
+											"  );",
+											"  pm.response.to.be.header(",
+											"    \"Access-Control-Allow-Credentials\",",
+											"    \"true\"",
+											"  );",
+											"  pm.response.to.be.header(",
+											"    \"Content-Type\",",
+											"    \"application/json;charset=UTF-8\"",
+											"  );",
+											"});",
+											"",
+											"pm.test('Schema is valid', function() {",
+											"  pm.expect(tv4.validate(",
+											"    pm.response.json(),",
+											"    pm.environment.get(\"schema\").definitions['Joke']",
+											"  )).to.be.true;",
+											"});",
+											"",
+											"pm.test('Joke value contains \"Bob\"', function() {",
+											"  pm.expect(pm.response.json().value).to.include(\"Bob\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Origin",
+										"value": "*",
+										"description": "The Origin request header indicates where a fetch originates from. It doesn't include any path information, but only the server name. It is sent with CORS requests, as well as with POST requests. It is similar to the Referer header, but, unlike this header, it doesn't disclose the whole path.",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/jokes/random?name=Jan",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"jokes",
+										"random"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Jan"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/jokes/random",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Headers are correct\", function () {",
+											"  pm.response.to.be.header(",
+											"    \"Access-Control-Allow-Origin\",",
+											"    \"*\"",
+											"  );",
+											"  pm.response.to.be.header(",
+											"    \"Access-Control-Allow-Credentials\",",
+											"    \"true\"",
+											"  );",
+											"  pm.response.to.be.header(",
+											"    \"Content-Type\",",
+											"    \"application/json;charset=UTF-8\"",
+											"  );",
+											"});",
+											"",
+											"pm.test('Schema is valid', function() {",
+											"  pm.expect(tv4.validate(",
+											"    pm.response.json(),",
+											"    pm.environment.get(\"schema\").definitions['Joke']",
+											"  )).to.be.true;",
+											"});",
+											"",
+											"pm.test('Joke value contains \"Bob\"', function() {",
+											"  pm.expect(pm.response.json().value).to.include(\"Bob\");",
+											"});",
+											"",
+											"pm.test(\"Has categories = ['dev']\", function () {",
+											"  var jsonData = pm.response.json();",
+											"  pm.expect(jsonData.categories).satisfy(category => {",
+											"      return (category[0] === 'dev')",
+											"  });",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Origin",
+										"value": "*",
+										"description": "The Origin request header indicates where a fetch originates from. It doesn't include any path information, but only the server name. It is sent with CORS requests, as well as with POST requests. It is similar to the Referer header, but, unlike this header, it doesn't disclose the whole path.",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/jokes/random?name=Bob&category=dev",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"jokes",
+										"random"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Bob"
+										},
+										{
+											"key": "category",
+											"value": "dev"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"const setSchema = (baseUrl) => {",
+					"  if (!baseUrl) {",
+					"    throw new Error('Argument \"baseUrl\" must be a non-empty string.');",
+					"  }",
+					"  ",
+					"  const env = pm.environment.name;",
+					"  const schema = pm.environment.get(\"schema\");",
+					"  if (!schema) {",
+					"    const url = `${baseUrl}/documentation`;",
+					"    pm.sendRequest(url, function (err, response) {",
+					"      if (err) {",
+					"        throw new Error(`Could not fetch swagger documentation from \"${url}\"`);",
+					"      } else {",
+					"        console.info(`Set environment variable \"schema\" successfully.`);",
+					"        pm.environment.set(\"schema\", response.json());",
+					"      }",
+					"    });",
+					"  }",
+					"}",
+					"",
+					"setSchema(",
+					"  pm.environment.get('base_url')",
+					");"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
