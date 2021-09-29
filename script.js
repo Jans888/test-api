@@ -9,7 +9,7 @@ if (section.length > 1) {
     let keyStringStart = '#  failure         detail'
     let keyStringEnd = '#### Finished Execution ####'
     let sectionTemp = fileContents.substring( 0, fileContents.indexOf(keyStringEnd) ).replace("", "")
-    details = sectionTemp.substring(sectionTemp.indexOf(keyStringStart) + 1).replace(" failure         detail", "")
+    details = sectionTemp.substring(sectionTemp.indexOf(keyStringStart) + 1).replace(" failure         detail", "").replace(/^/gm, '<br>').replace(/AssertionError/g, "<b>AssertionError - </b>")
 
 } else {
     details = ["No issues"]
